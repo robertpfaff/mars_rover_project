@@ -30,6 +30,7 @@ const App = (state) => {
     console.log(apod)
 
     if (store.chosenRover != undefined || "")
+    console.log(store.chosenRover)
     return `<!DOCTYPE html>
     <html>
         <head>
@@ -134,29 +135,20 @@ const ImageOfTheDay = (apod) => {
     }
 }
 
-// ------------------------------------------------------  COMPONENNT FUNCTIOND
 
+// ------------------------------------------------------  COMPONENNT FUNCTIOND
 // Creates content for each scenario. 
 // Then call (const var) function inside App to display
+// const showRoverPhotos =  (roverPhotos) => {
 
-
-const showRoverPhotos =  (state) => {
-
-    // Pure function
     // If chosenRover does not exist, inform user and send back to form.
     // If chosenRover selected, but no photos availble, inform user, send back to form.
     // If conditions are right (chosenRover exists in state, and photos exist), display.
     // In gallery. Use conditional framework to produce correct photo sets.
     // Remember to collect and display  name, launch_date, landing_date, status
 
-    if (store.chosenRover != undefined) { // if chosenRover is not undefined.
-        // Grab photos from API based on user input.
-        if (store.chosenRover == 'curiosity'.toLowerCase()) {
-            return
-        }
-    }}
-// ------------------------------------------------------  API CALLS
 
+// ------------------------------------------------------  API CALLS
 // Example API call
 const getImageOfTheDay = (state) => {
     let { apod } = state
@@ -165,26 +157,26 @@ const getImageOfTheDay = (state) => {
         .then(res => res.json())
         .then(apod => updateStore(store, { apod }))
 
-        console.log("getImage results:")
+        console.log("getImage apod results:")
         console.log(apod)
+
 
     return data
 }
+
 
 // This API call gets image data from the backend.
 // Transforms the fetch data roverPhotos into
 //  an array of imgage urls for the gallery.
 
-const getRoverPhotos = (state) => {
-    let { chosenRover } = state
+const getRoverPhotos = async (state) => {
 
-    const RoverPhotos = fetch(`http://localhost:3000/rovers/chosenRover}`)
+    const RoverPhotos = await fetch(`http://localhost:3000/gallery`)
         .then(res => res.json())
-        .then(json => updateStore({ json }))
-    
-        console.log("roverPhotos results:")
-        console.log(RoverPhotos)
-    
+        .then(gallery => updateStore({ gallery }))
+        console.log("Store")
+        console.log(store)
+
     return RoverPhotos
 }
 
