@@ -1,0 +1,25 @@
+{
+  "name": "jsnd3_mars_dashboard",
+  "version": "1.0.0",
+  "description": "course project",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/robertpfaff/mars_rover_project.git"
+},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "bootstrap": "^5.1.3",
+    "dotenv": "^8.6.0",
+    "express": "^4.18.1",
+    "immutable": "^4.1.0",
+    "node-fetch": "^2.6.0",
+    "nodemon": "^2.0.18"
+  }
+}
