@@ -2,7 +2,7 @@ let store = {
     user: { name: "Student" },
     apod: '',
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
-    chosenRover: "curiosity"
+    chosenRover: 'curiosity'
 }
 
 // add our markup to the page
@@ -17,21 +17,13 @@ const render = async (root, state) => {
     root.innerHTML = App(state)
 }
 
+
 // create content
 const App = (state) => {
-    let { chosenRover, rovers, apod } = state
-
-    // At this point, state is equal to store.
-    console.log("Inside App(state)")
-    console.log(state)
-    console.log("Rovers")
-    console.log(rovers)
-    console.log("Apod")
-    console.log(apod)
-
-    if (store.chosenRover != undefined || "")
-    console.log(store.chosenRover)
-    return `<!DOCTYPE html>
+    let { rovers, apod } = state
+    if (store.chosenRover != undefined) {
+    return `
+    <!DOCTYPE html>
     <html>
         <head>
             <meta charset="utf-8">
@@ -40,10 +32,10 @@ const App = (state) => {
             <style>body {padding: 25px }</style>
             <meta name="description" content="">
             <meta name="viewport" content="width=device-width, initial-scale=1">
-            <link rel="stylesheet" href="assets/stylesheets/form.css">
+            <link rel="stylesheet" href="assets\stylesheets\form.css">
         </head>
         <body>
-      <form action="./" class=".form__border" name="form">
+      <form action="./gallery.html)" class=".form__border" name="form">
                 <div class="form__item">
                     <label for="givenname" class="form__label">Please select a rover:</label>
                     <select id="rover_name" name="rover_name" class="form__input">
@@ -79,33 +71,27 @@ const App = (state) => {
     </html>
     `
 }
+}
 
 // listening for load event because page should load before any JS is called
 window.addEventListener('load', () => {
     render(root, store)
 })
 
-// ------------------------------------------------------  HANDLERS
-// check to make sure item is image.
-// if yee, wrap in img tags
-// store in gallery folder temporarily
-// empty folder at end of session
-
-// Wrap rover photos in img tags for display
-// This function maps roverPhotos into array of image urls for display.
-// Places urls into const variable called roverGallery
-
- /* const roverURLs = async ( fn ) => {
-    const roverPhotos = await getRoverPhotos(chosenRover)
-    roverGallery = await roverPhotos.gallery.latest_photos.map(photo => photo.img_src)
-    console.log("Results roverURLs/roverGallery function:")
-    console.log(roverGallery)
-    return roverGallery
-}
-*/
-
-
 // ------------------------------------------------------  COMPONENTS
+
+// Pure function that renders conditional information -- THIS IS JUST AN EXAMPLE, you can delete it.
+const Greeting = (name) => {
+    if (name) {
+        return `
+            <h1>Welcome, ${name}!</h1>
+        `
+    }
+
+    return `
+        <h1>Hello!</h1>
+    `
+}
 
 // Example of a pure function that renders infomation requested from the backend
 const ImageOfTheDay = (apod) => {
@@ -135,20 +121,8 @@ const ImageOfTheDay = (apod) => {
     }
 }
 
-
-// ------------------------------------------------------  COMPONENNT FUNCTIOND
-// Creates content for each scenario. 
-// Then call (const var) function inside App to display
-// const showRoverPhotos =  (roverPhotos) => {
-
-    // If chosenRover does not exist, inform user and send back to form.
-    // If chosenRover selected, but no photos availble, inform user, send back to form.
-    // If conditions are right (chosenRover exists in state, and photos exist), display.
-    // In gallery. Use conditional framework to produce correct photo sets.
-    // Remember to collect and display  name, launch_date, landing_date, status
-
-
 // ------------------------------------------------------  API CALLS
+
 // Example API call
 const getImageOfTheDay = (state) => {
     let { apod } = state
@@ -157,29 +131,5 @@ const getImageOfTheDay = (state) => {
         .then(res => res.json())
         .then(apod => updateStore(store, { apod }))
 
-        console.log("getImage apod results:")
-        console.log(apod)
-
-
     return data
 }
-
-
-// This API call gets image data from the backend.
-// Transforms the fetch data roverPhotos into
-//  an array of imgage urls for the gallery.
-
-const getRoverPhotos = async (state) => {
-
-    const RoverPhotos = await fetch(`http://localhost:3000/gallery`)
-        .then(res => res.json())
-        .then(gallery => updateStore({ gallery }))
-        console.log("Store")
-        console.log(store)
-
-    return RoverPhotos
-}
-
-console.log("Call getRoverPhotos fetch function")
-console.log(getRoverPhotos('curiosity'));
-
