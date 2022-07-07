@@ -1,7 +1,7 @@
 let store = {
     apod: '',
-    rovers: ['Curiosity', 'Opportunity', 'Spirit'],
-    chosenRover: "curiosity"
+    rovers: ['curiosity', 'opportunity', 'spirit'],
+    currentRover: 'curiosity'
 }
 
 // add our markup to the page
@@ -23,12 +23,20 @@ const App = (state) => {
     // At this point, state is equal to store.
     console.log("Inside App(state)")
     console.log(state)
-    console.log("Rovers")
-    console.log(rovers)
-    console.log("Apod")
-    console.log(apod)
+    // use map to collect array of rover photo urls
+    const mapRoverURLs = (state) => {
+        const roverURLs = state.roverPhotos.gallery.latest_photos.map(photo => photo.img_src);
+        console.log("roverURLs")
+        console.log(roverURLs)
+        return roverURLs
+    }
 
-    if (store.chosenRover != undefined) {
+    mapRoverURLs(state)
+
+
+        // for each URL gather related data into separate object
+        // const gatherImageData = (state) => {
+        // const roverName = state.data.gallery.latest_photos[0].rover.name
 
         // if chosen rover defined, then assign variables to required data.
         // info same for all images so just use zero
@@ -37,39 +45,32 @@ const App = (state) => {
         // 1. Make array of photo urls.
         // 2. Wrap each url in img
         // 2. For each url in array, make object with related info
-        // 3. Nest objects in 
+        // 3. Nest objects in
 
-        const objectForEachImage = ()
-
-        const roverName = state.data.gallery.latest_photos[0].rover.name
+        const roverName = state.roverPhotos.gallery.latest_photos[0].rover.name
         console.log("Rover Name:")
         console.log(roverName)
 
-        const roverStatus = state.data.gallery.latest_photos[0].rover.status
+        const roverStatus = state.roverPhotos.gallery.latest_photos[0].rover.status
         console.log("Rover Status:")
         console.log(roverStatus)
 
-        const launchDate = state.data.gallery.latest_photos[0].rover.launch_date
+        const launchDate = state.roverPhotos.gallery.latest_photos[0].launch_date
         console.log("Landing Date:")
         console.log(launchDate)
 
-        const landingDate = state.data.gallery.latest_photos[0].rover.landing_date
+        const landingDate = state.roverPhotos.gallery.latest_photos[0].landing_date
         console.log("Launch Date:")
         console.log(landingDate)
 
-        // use map to collect array of rover photo urls
-
-        const roverURLs = state.data.gallery.latest_photos.map(photo => photo.img_src)
-        console.log("Rover Photo URLs:")
-        console.log(roverURLs)
-
-    }
-
 }
+
 // listening for load event because page should load before any JS is called
 window.addEventListener('load', () => {
     render(root, store)
 })
+
+
 
 // ------------------------------------------------------  HANDLERS
 // check to make sure item is image.
@@ -112,13 +113,9 @@ const getRoverPhotos = async (state) => {
 
     const response = await fetch(`http://localhost:3000/gallery`)
     const roverPhotos = await response.json()
-    .then(data => updateStore(store, { data }))
+    .then(roverPhotos => updateStore(store, { roverPhotos }))
     .catch(err => { console.log(err) });
-
-    console.log("Rover Photos")
-    console.log(roverPhotos)
-    return response
-
 }
 
-console.log(getRoverPhotos(store.chosenRover));
+const showRoverPhotos = getRoverPhotos(store.chosenRover)
+console.log(showRoverPhotos)

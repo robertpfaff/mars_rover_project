@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
+const Immutable = require('immutable');
 const fetch = require('node-fetch')
 const path = require('path')
 
@@ -12,7 +13,8 @@ app.use(bodyParser.json())
 
 app.use('/', express.static(path.join(__dirname, '../public')))
 
-let chosenRover = 'curiosity'
+// share chosen rover in session storage
+chosenRover = "curiosity"
 
 // Backend NASA API calls for rover photo data.
 app.get('/gallery', async (req, res) => {
