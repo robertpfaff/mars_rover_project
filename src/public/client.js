@@ -34,7 +34,12 @@ const App = (state) => {
         // info same for all images so just use zero
         // use pure function to bundle them for each photo?
 
-        const getRoverPhotosData = ()
+        // 1. Make array of photo urls.
+        // 2. Wrap each url in img
+        // 2. For each url in array, make object with related info
+        // 3. Nest objects in 
+
+        const objectForEachImage = ()
 
         const roverName = state.data.gallery.latest_photos[0].rover.name
         console.log("Rover Name:")
@@ -105,13 +110,15 @@ window.addEventListener('load', () => {
 
 const getRoverPhotos = async (state) => {
 
-    const roverPhotos = await fetch(`http://localhost:3000/gallery`)
-        .then(res => res.json())
-        .then(data => updateStore(store, { data }))
-        .catch(err => { console.log(err) });
+    const response = await fetch(`http://localhost:3000/gallery`)
+    const roverPhotos = await response.json()
+    .then(data => updateStore(store, { data }))
+    .catch(err => { console.log(err) });
 
-    return data
+    console.log("Rover Photos")
+    console.log(roverPhotos)
+    return response
+
 }
 
 console.log(getRoverPhotos(store.chosenRover));
-
