@@ -28,13 +28,39 @@ const App = (state) => {
     console.log("Apod")
     console.log(apod)
 
-    if (store.chosenRover != undefined || "")
-    console.log(store.chosenRover)
-    return `
+    if (store.chosenRover != undefined) {
 
-    `
+        // if chosen rover defined, then assign variables to required data.
+        // info same for all images so just use zero
+        // use pure function to bundle them for each photo?
+
+        const getRoverPhotosData = ()
+
+        const roverName = state.data.gallery.latest_photos[0].rover.name
+        console.log("Rover Name:")
+        console.log(roverName)
+
+        const roverStatus = state.data.gallery.latest_photos[0].rover.status
+        console.log("Rover Status:")
+        console.log(roverStatus)
+
+        const launchDate = state.data.gallery.latest_photos[0].rover.launch_date
+        console.log("Landing Date:")
+        console.log(launchDate)
+
+        const landingDate = state.data.gallery.latest_photos[0].rover.landing_date
+        console.log("Launch Date:")
+        console.log(landingDate)
+
+        // use map to collect array of rover photo urls
+
+        const roverURLs = state.data.gallery.latest_photos.map(photo => photo.img_src)
+        console.log("Rover Photo URLs:")
+        console.log(roverURLs)
+
+    }
+
 }
-
 // listening for load event because page should load before any JS is called
 window.addEventListener('load', () => {
     render(root, store)
