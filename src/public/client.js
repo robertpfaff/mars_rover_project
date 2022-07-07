@@ -55,11 +55,11 @@ const App = (state) => {
         console.log("Rover Status:")
         console.log(roverStatus)
 
-        const launchDate = state.roverPhotos.gallery.latest_photos[0].launch_date
+        const launchDate = state.roverPhotos.gallery.latest_photos[0].rover.launch_date
         console.log("Landing Date:")
         console.log(launchDate)
 
-        const landingDate = state.roverPhotos.gallery.latest_photos[0].landing_date
+        const landingDate = state.roverPhotos.gallery.latest_photos[0].rover.landing_date
         console.log("Launch Date:")
         console.log(landingDate)
 
