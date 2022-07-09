@@ -14,7 +14,7 @@ app.use(bodyParser.json())
 app.use('/', express.static(path.join(__dirname, '../public')))
 
 // share chosen rover in session storage
-chosenRover = "curiosity"
+chosenRover = 'curiosity'
 
 // Backend NASA API calls for rover photo data.
 app.get('/gallery', async (req, res) => {
@@ -27,7 +27,6 @@ app.get('/gallery', async (req, res) => {
         console.log('error:', err);
     }
 })
-
 
 // example API call
 app.get('/apod', async (req, res) => {
