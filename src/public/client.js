@@ -19,41 +19,19 @@ const render = async (root, state) => {
 const App = (state) => {
     let { store, newState } = state
 
-console.log("Inside App(state)")
+console.log("App: State Variable)")
 console.log("State")
 console.log(state)
-console.log("Store")
-console.log(store)
-console.log("New State:")
-console.log(newState)
 
-// Map image urls
+const PhotoInfo = state.latest_photos.map(photo => photo.img_src)
+const RoverInfo = state.latest_photos.map(photo => Object.entries(photo.rover))
 
-const mapImageURLs = (state) => {
-    console.log("Map Image URLs")
-    roverURLs = state.latest_photos.map(photo => photo.img_src)
-    console.log(roverURLs)
-}
-mapImageURLs(state);
-
-// For each rover url, map related information
-
-
-
-
-
-// listening for load event because page should load before any JS is called
-window.addEventListener('load', () => {
-    render(root, store)
-})
-
-
-
-
-
+const RoverPhotoInfo = (RoverInfo, PhotoInfo) => RoverInfo.map((photo, i) => ({...photo, Data: PhotoInfo[i]}));
+console.log(RoverPhotoInfo(RoverInfo, PhotoInfo));
 
 // end of App section
 }
+
 
 // ------------------------------------------------------  HANDLERS
 
@@ -80,13 +58,16 @@ const getRoverPhotos = async (state, fn) => {
 
 const jsonImageData = await response.json();
 
-const ImageData = jsonImageData.gallery.latest_photos.map(photo => {
+const RoverImageData = jsonImageData.gallery.latest_photos.map(photo => {
     return photo.img_src;
 });
 
+    console.log("Rover Image Data:")
+    console.log(RoverImageData)
+
     const newState = jsonImageData.gallery
     updateStore(store, newState)
-    return ImageData
+    return RoverImageData
 }
 
 getRoverPhotos(store, updateStore)
