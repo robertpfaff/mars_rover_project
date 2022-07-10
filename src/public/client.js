@@ -23,29 +23,66 @@ console.log("App: State Variable)")
 console.log("State")
 console.log(state)
 
-const PhotoInfo = state.latest_photos.map(photo => photo.img_src)
-const RoverInfo = state.latest_photos.map(photo => Object.entries(photo.rover))
+const capitalize = ([first, ...rest], lowerRest = false) =>
+  first.toUpperCase() + (lowerRest ? rest.join('').toLowerCase() : rest.join(''));
 
-const RoverPhotoInfo = (RoverInfo, PhotoInfo) => RoverInfo.map((photo, i) => ({...photo, Data: PhotoInfo[i]}));
-console.log(RoverPhotoInfo(RoverInfo, PhotoInfo));
+// Makes and merges rover and photo info objects for cards.
+const InfoObjects = (state) => {
 
-// end of App section
+    const PhotoInfo = state.latest_photos.map(photo => photo.img_src)
+    const RoverInfo = state.latest_photos.map(photo => Object.entries(photo.rover))
+    const RoverPhotoInfo = (RoverInfo, PhotoInfo) => RoverInfo.map((photo, i) => ({...photo, Data: PhotoInfo[i]}));
+    console.log(RoverPhotoInfo(RoverInfo, PhotoInfo));
+
+    return RoverPhotoInfo
+}
+const callInfoObjects = console.log(InfoObjects(state))
+
+// Render content based on user input chosenRover.
+
+// if chosenRover is defined, run function to create slideshow.
+// if chosenRover not defined, run function to send form, alert user
+
+if (state.chosenRover != undefined) {
+    const chosenRover = capitalize(state.chosenRover);
+    console.log(chosenRover)
+    return (`
+    <header>
+    </header>
+
+    <div class="container">
+        <div>
+            <h1 class="main-title">Welcome to the ${chosenRover} Gallery</h1>
+        </div>
+        <div>
+        ${callInfoObjects}
+        </div>
+
+    <footer>
+    <footer>
+`)
+
 }
 
 
-// ------------------------------------------------------  HANDLERS
-
-// ------------------------------------------------------  COMPONENTS
+// Make Boostrap slideshow/carousel for display in html
 
 
-// ------------------------------------------------------  API CALLS
 
-// Works only with RoverPhotos as callback function.
+
+
+
+
+
+// Generally, a return value is used where the function is an intermediate step in a calculation of some kind.
+// END OF APP FUNCTION.
+}
+
+
+// Single async higher-order/callback function
+// Retrieves image data and update store/new state
 // getRoverPhotos is Higher Order function.
-
-
-// single async higher-order/callback function
-// to retrieve image data and update store/new state
+// RoverPhotos as callback function.
 
 const getRoverPhotos = async (state, fn) => {
 
