@@ -3,12 +3,12 @@
 body {
   display: flex;
   flex-direction: column;
-  font-family: Arial;
+  font-family: 'Montserrat';font-size: 22px;
   min-height: 100vh;
 }
 
 header {
-  /* header styles */
+  display: block;
 }
 
 main {
@@ -17,7 +17,9 @@ main {
 }
 
 footer {
-  /* footer styles */
+  display: table-footer-group;
+  vertical-align: middle;
+  border-color: inherit;
 }
 
 /* -------------------  TABLET  --------------------- */

@@ -15,69 +15,68 @@ const render = async (root, state) => {
     root.innerHTML = App(state)
 }
 
-// create content
-const App = (state) => {
-    let { store, newState } = state
-
-console.log("App: State Variable)")
-console.log("State")
-console.log(state)
-
+// Helper function/code to capitalize words as neccessary.
 const capitalize = ([first, ...rest], lowerRest = false) =>
   first.toUpperCase() + (lowerRest ? rest.join('').toLowerCase() : rest.join(''));
 
-// Makes and merges rover and photo info objects for cards.
-const InfoObjects = (state) => {
-
-    const PhotoInfo = state.latest_photos.map(photo => photo.img_src)
-    const RoverInfo = state.latest_photos.map(photo => Object.entries(photo.rover))
-    const RoverPhotoInfo = (RoverInfo, PhotoInfo) => RoverInfo.map((photo, i) => ({...photo, Data: PhotoInfo[i]}));
-    console.log(RoverPhotoInfo(RoverInfo, PhotoInfo));
-
-    return RoverPhotoInfo
-}
-const callInfoObjects = console.log(InfoObjects(state))
-
 // Render content based on user input chosenRover.
-
 // if chosenRover is defined, run function to create slideshow.
 // if chosenRover not defined, run function to send form, alert user
 
+// CREATE CONTENT STARTING HERE:
+// Closure starts
+const App = (state) => {
+    let { store, newState } = state
+
+
+// Makes and merges rover and photo info objects for cards.
+
+const showRoverPhotos = (state) => {
+
+    const PhotoInfo = state.latest_photos.map(photo => photo.img_src)
+    const RoverInfo = state.latest_photos.map(photo => Object.entries(photo.rover))
+    const RoverPhotos = (RoverInfo, PhotoInfo) => RoverInfo.map((Rover, i) => ({...Rover, Image: PhotoInfo[i]}));
+    showPhotos = Object.entries(RoverPhotos(RoverInfo, PhotoInfo))
+    console.log("showPhotos")
+    console.log(showPhotos)
+    const photo = new Image(800, 800)
+    console.log("photo")
+    console.log(photo)
+    photo.src = showPhotos["0"]["1"].Image
+    console.log("photo.src")
+    console.log(photo.src)
+    photo.alt = 'Mars Rover Photo'
+    return `<img src=${photo.src} alt=${photo.alt} />`
+}
+
+console.log("App: State Variable")
+console.log("State")
+console.log(state)
+
 if (state.chosenRover != undefined) {
-    const chosenRover = capitalize(state.chosenRover);
-    console.log(chosenRover)
+    const chosenRover = capitalize(state.chosenRover)
     return (`
-    <header>
-    </header>
-
-    <div class="container">
-        <div>
-            <h1 class="main-title">Welcome to the ${chosenRover} Gallery</h1>
-        </div>
-        <div>
-        ${callInfoObjects}
-        </div>
-
-    <footer>
-    <footer>
-`)
+            <header>
+            <h2 class="main-title">Welcome to the ${chosenRover} Rover's Gallery</h2>
+            </header>
+                <div class="main">
+                <hr />
+                <p>Show Rover Photos</p>
+                <div>${showRoverPhotos(state)}</div>
+                <br></br>
+                <hr />
+            </div>
+            <footer>
+            <footer>
+        `)
+} else {
+    return (`Return to user form`)
 
 }
 
-
-// Make Boostrap slideshow/carousel for display in html
-
-
-
-
-
-
-
-
-// Generally, a return value is used where the function is an intermediate step in a calculation of some kind.
-// END OF APP FUNCTION.
+// Closure ends
+// END OF APP FUNCTION
 }
-
 
 // Single async higher-order/callback function
 // Retrieves image data and update store/new state
@@ -97,6 +96,7 @@ const jsonImageData = await response.json();
 
 const RoverImageData = jsonImageData.gallery.latest_photos.map(photo => {
     return photo.img_src;
+
 });
 
     console.log("Rover Image Data:")
