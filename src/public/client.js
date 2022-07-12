@@ -33,20 +33,43 @@ const App = (state) => {
 
 const showRoverPhotos = (state) => {
 
-    const PhotoInfo = state.latest_photos.map(photo => photo.img_src)
-    const RoverInfo = state.latest_photos.map(photo => Object.entries(photo.rover))
-    const RoverPhotos = (RoverInfo, PhotoInfo) => RoverInfo.map((Rover, i) => ({...Rover, Image: PhotoInfo[i]}));
-    showPhotos = Object.entries(RoverPhotos(RoverInfo, PhotoInfo))
-    console.log("showPhotos")
+    // use new Image constructor on image hyperlinks.
+    const photoInfo = state.latest_photos.map(photo => photo.img_src  = new Image(800,800))
+    // convert new images into html friendly objects?
+    console.log("Photo Info")
+    console.log(photoInfo)
+    // Use object entries to capture rover info in one place
+    const roverInfo = state.latest_photos.map(photo => Object.entries(photo.rover))
+    console.log("Rover Info")
+    console.log(roverInfo)
+    // Make array of all earth_dates when images take.
+    // Not completely necessary. But catches any irregularities.
+    const imageDates = state.latest_photos.map(photo => photo.earth_date)
+    console.log("Earth Dates")
+    console.log(imageDates)
+    // Recombine photo and rover information.
+    // Easier to take rover[0] info for all object, but this catches any inconsitencies.
+    const roverPhotos = (roverInfo, photoInfo) => roverInfo.map((rover, i) => ({...rover, image: photoInfo[i], imageDate: imageDates[i]}));
+    console.log("Rover Photos")
+    console.log(roverPhotos)
+    // Flattens array values.
+    const showPhotos = Array.from(roverPhotos(roverInfo, photoInfo))
+    console.log("Show Photos")
     console.log(showPhotos)
-    const photo = new Image(800, 800)
-    console.log("photo")
-    console.log(photo)
-    photo.src = showPhotos["0"]["1"].Image
-    console.log("photo.src")
-    console.log(photo.src)
-    photo.alt = 'Mars Rover Photo'
-    return `<img src=${photo.src} alt=${photo.alt} />`
+    // Rearranges info as needed, produces single array of objects.
+    const imageMaps = showPhotos.map(item => {
+        return {
+            imageSource: item.image,
+            imageTakenOn: item.imageDate,
+            roverName: item['1']['1'],
+            roverStatus: item['4']['1'],
+            landingDate: item['2']['1'],
+            launchDate: item['3']['1']
+            }
+    })
+    console.log("New Object")
+    console.log(imageMaps)
+
 }
 
 console.log("App: State Variable")

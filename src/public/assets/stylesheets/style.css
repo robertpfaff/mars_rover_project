@@ -7,8 +7,8 @@ ul {
   }
 
   img {
-    height: 100px;
-    width: auto;
+    width: 800px;
+    height: 800px;
     transition-duration: 0.2s;
     transform-origin: 50% 50%;
   }
