@@ -29,12 +29,12 @@ const App = (state) => {
     let { store, newState } = state
 
 // Makes and merges rover and photo info objects for cards.
+// Some images are duplicates, but urls are differet.
 
 const showRoverPhotos = (state) => {
 
     const imageURLs = state.latest_photos.map(photo => photo.img_src)
-    imageURLs.forEach(imageURL => console.log(imageURL))
-    const imageObjects = state.latest_photos.map(photo => photo.img_src = new Image(800,800))
+    const imageObjects = state.latest_photos.map(photo => photo.img_src = new Image(600,600))
     const imageDates = state.latest_photos.map(photo => photo.earth_date)
     const cameraNames = state.latest_photos.map(photo => photo.camera.full_name)
     const roversNames = state.latest_photos.map(photo => photo.rover.name)
@@ -53,15 +53,18 @@ const showRoverPhotos = (state) => {
     // Don't forget: Single array of objects
     return (imageMaps.map( item =>
     `<div class="container">
-    <img src=${item.imageURL} width=800px height=800px alt="Mars Rover Photo Taken ${item.imageDate}"/>
+    <img src=${item.imageURL} width=600px height=600px alt="Mars Rover Photo Taken ${item.imageDate}"/>
+    <br>
+    <br>
     <p><span>Rover Name:</span> ${item.roverName}</p>
     <p><span>Rover Status:</span> ${item.roverStatus}</p>
     <p><span>Launch Date:</span> ${item.roverLaunchDate}</p>
     <p><span>Landing Date:</span> ${item.roverLandDate}</p>
     <p><span>Image Date:</span> ${item.imageDate}</p>
     <p></p>
+    <br>
     <hr/>
-    <p></p>
+    <br>
     </div>`).slice(0, 50).join(""))
 
 }
@@ -79,7 +82,9 @@ if (state.chosenRover != undefined) {
             </header>
                 <div class="main">
                 <hr />
-                <p>Show Rover Photos</p>
+                <p><h3>Latest Photos from Mars<h3></p>
+                <br>
+                <br>
                 <div>${showRoverPhotos(state)}
                 </div>
                 <br></br>
@@ -144,3 +149,4 @@ const buildRequestURL = (requestData) => {
   return `http://localhost:3000/gallery/${requestData.rover}&LimitTo=[rovers]`
 
 */
+
