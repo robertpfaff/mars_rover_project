@@ -5,6 +5,7 @@ body {
   flex-direction: column;
   font-family: 'Montserrat';font-size: 22px;
   min-height: 100vh;
+  line-height: 30px;
 }
 
 header {

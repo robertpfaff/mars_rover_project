@@ -28,49 +28,44 @@ const capitalize = ([first, ...rest], lowerRest = false) =>
 const App = (state) => {
     let { store, newState } = state
 
-
 // Makes and merges rover and photo info objects for cards.
 
 const showRoverPhotos = (state) => {
 
-    // use new Image constructor on image hyperlinks.
-    const photoInfo = state.latest_photos.map(photo => photo.img_src  = new Image(800,800))
-    // convert new images into html friendly objects?
-    console.log("Photo Info")
-    console.log(photoInfo)
-    // Use object entries to capture rover info in one place
-    const roverInfo = state.latest_photos.map(photo => Object.entries(photo.rover))
-    console.log("Rover Info")
-    console.log(roverInfo)
-    // Make array of all earth_dates when images take.
-    // Not completely necessary. But catches any irregularities.
+    const imageURLs = state.latest_photos.map(photo => photo.img_src)
+    imageURLs.forEach(imageURL => console.log(imageURL))
+    const imageObjects = state.latest_photos.map(photo => photo.img_src = new Image(800,800))
     const imageDates = state.latest_photos.map(photo => photo.earth_date)
-    console.log("Earth Dates")
-    console.log(imageDates)
-    // Recombine photo and rover information.
-    // Easier to take rover[0] info for all object, but this catches any inconsitencies.
-    const roverPhotos = (roverInfo, photoInfo) => roverInfo.map((rover, i) => ({...rover, image: photoInfo[i], imageDate: imageDates[i]}));
-    console.log("Rover Photos")
-    console.log(roverPhotos)
-    // Flattens array values.
-    const showPhotos = Array.from(roverPhotos(roverInfo, photoInfo))
-    console.log("Show Photos")
-    console.log(showPhotos)
-    // Rearranges info as needed, produces single array of objects.
-    const imageMaps = showPhotos.map(item => {
-        return {
-            imageSource: item.image,
-            imageTakenOn: item.imageDate,
-            roverName: item['1']['1'],
-            roverStatus: item['4']['1'],
-            landingDate: item['2']['1'],
-            launchDate: item['3']['1']
-            }
-    })
-    console.log("New Object")
+    const cameraNames = state.latest_photos.map(photo => photo.camera.full_name)
+    const roversNames = state.latest_photos.map(photo => photo.rover.name)
+    const roversStatus = state.latest_photos.map(photo => photo.rover.status)
+    const roversLaunchDates = state.latest_photos.map(photo => photo.rover.launch_date)
+    const roversLandDates = state.latest_photos.map(photo => photo.rover.landing_date)
+    const roverPhotoInfo = (imageURLs, imageObjects, imageDates, cameraNames, roversNames, roversStatus, roversLaunchDates, roversLandDates) => imageURLs.map((imageURL, i) => ({imageURL, imageObject: imageObjects[i], imageDate: imageDates[i], cameraName: cameraNames[i], roverName: roversNames[i],
+        roverStatus: roversStatus[i], roverLaunchDate: roversLaunchDates[i], roverLandDate: roversLandDates[i]
+    }));
+    console.log("Rover Photo Info Objects")
+    photoInfo = roverPhotoInfo(imageURLs, imageObjects, imageDates, cameraNames, roversNames, roversStatus, roversLaunchDates, roversLandDates)
+    console.log("Image Maps")
+    const imageMaps = Array.from(photoInfo)
     console.log(imageMaps)
+    // Flattens array values. Easier to work with.
+    // Don't forget: Single array of objects
+    return (imageMaps.map( item =>
+    `<div class="container">
+    <img src=${item.imageURL} width=800px height=800px alt="Mars Rover Photo Taken ${item.imageDate}"/>
+    <p><span>Rover Name:</span> ${item.roverName}</p>
+    <p><span>Rover Status:</span> ${item.roverStatus}</p>
+    <p><span>Launch Date:</span> ${item.roverLaunchDate}</p>
+    <p><span>Landing Date:</span> ${item.roverLandDate}</p>
+    <p><span>Image Date:</span> ${item.imageDate}</p>
+    <p></p>
+    <hr/>
+    <p></p>
+    </div>`).slice(0, 50).join(""))
 
 }
+// const values = Array.prototype.map.call(elems, ({ value }) => value);
 
 console.log("App: State Variable")
 console.log("State")
@@ -85,7 +80,8 @@ if (state.chosenRover != undefined) {
                 <div class="main">
                 <hr />
                 <p>Show Rover Photos</p>
-                <div>${showRoverPhotos(state)}</div>
+                <div>${showRoverPhotos(state)}
+                </div>
                 <br></br>
                 <hr />
             </div>
