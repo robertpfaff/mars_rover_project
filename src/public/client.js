@@ -1,6 +1,7 @@
 let store = {
     rovers: ['curiosity', 'opportunity', 'spirit'],
-    chosenRover: 'curiosity'
+    chosenRover: 'curiosity',
+    camera: 'Front Hazard Avoidance Camera'
 }
 
 // add our markup to the page
@@ -82,7 +83,7 @@ if (state.chosenRover != undefined) {
             </header>
                 <div class="main">
                 <hr />
-                <p><h3>Latest Photos from Mars<h3></p>
+                <p><h4>Greetings, Earthling! Latest Images from Mars<h4></p>
                 <br>
                 <br>
                 <div>${showRoverPhotos(state)}
@@ -149,4 +150,3 @@ const buildRequestURL = (requestData) => {
   return `http://localhost:3000/gallery/${requestData.rover}&LimitTo=[rovers]`
 
 */
-
