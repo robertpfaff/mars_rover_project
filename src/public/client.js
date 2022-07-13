@@ -1,7 +1,6 @@
 let store = {
     rovers: ['curiosity', 'opportunity', 'spirit'],
-    chosenRover: 'curiosity',
-    camera: 'Front Hazard Avoidance Camera'
+    chosenRover: '',
 }
 
 // add our markup to the page
@@ -28,6 +27,19 @@ const capitalize = ([first, ...rest], lowerRest = false) =>
 // Closure starts
 const App = (state) => {
     let { store, newState } = state
+
+// IIFE to populate screen with buttons
+
+for (var i = 0; i < state.rovers.length; i++) {
+    const button = document.createElement('button');
+    button.innerText = 'Button ' + i;
+    button.onclick = function() {
+      console.log(i);
+    };
+    document.body.appendChild(button);
+  }
+  console.log(i); // 2
+
 
 // Makes and merges rover and photo info objects for cards.
 // Some images are duplicates, but urls are differet.
@@ -94,13 +106,13 @@ if (state.chosenRover != undefined) {
             <footer>
             <footer>
         `)
-} else {
-    return (`Return to user form`)
-
 }
+
 
 // Closure ends
 // END OF APP FUNCTION
+// End of state?
+
 }
 
 // Single async higher-order/callback function
@@ -131,6 +143,7 @@ const RoverImageData = jsonImageData.gallery.latest_photos.map(photo => {
     updateStore(store, newState)
     return RoverImageData
 }
+
 
 getRoverPhotos(store, updateStore)
 
