@@ -31,8 +31,9 @@ const App = (state) => {
 // IIFE to populate screen with buttons
 
 for (var i = 0; i < state.rovers.length; i++) {
+    const rovers = Array.from(state.rovers)
     const button = document.createElement('button');
-    button.innerText = 'Button ' + i;
+    button.innerText = capitalize(rovers[i]);
     button.onclick = function() {
       console.log(i);
     };

@@ -23,6 +23,13 @@ footer {
   border-color: inherit;
 }
 
+button {
+  font-size: 20px; /* Put your wanted size for your button here*/
+  height: 100px;
+  width: 250px;
+}
+
+
 /* -------------------  TABLET  --------------------- */
 @media (min-width: 768px) {
   /* use mobile */
