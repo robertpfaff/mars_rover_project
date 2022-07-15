@@ -1,10 +1,47 @@
 let store = {
+
     rovers: ['curiosity', 'opportunity', 'spirit'],
     chosenRover: '',
+    earthName: '',
+    cameraAngle: ''
 }
 
-// add our markup to the page
-const root = document.getElementById('root')
+function getData() {
+    window.addEventListener('load', () => {
+
+    // Get query parameters
+
+    const params = (new URL(document.location)).searchParams;
+    const name = params.get('name');
+    const rover = params.get('rover');
+    const camera = params.get('camera');
+
+    document.getElementById("result-name").innerHTML = name;
+    document.getElementById("result-rover").innerHTML = rover;
+    document.getElementById("result-camera").innerHTML = camera;
+
+    console.log("Results Get Params")
+
+    const userInput = new Object();
+    userInput.name = name;
+    userInput.rover = rover;
+    userInput.camera = camera;
+
+console.log("User Input")
+console.log(userInput)
+
+const temp = Object.assign(store, userInput);
+
+console.log("Store After Assign")
+console.log(store)
+
+return store
+
+})};
+getData()
+
+console.log("Store Outside Function")
+console.log(store)
 
 const updateStore = (store, newState) => {
     store = Object.assign(store, newState)
@@ -19,6 +56,7 @@ const render = async (root, state) => {
 const capitalize = ([first, ...rest], lowerRest = false) =>
   first.toUpperCase() + (lowerRest ? rest.join('').toLowerCase() : rest.join(''));
 
+
 // Render content based on user input chosenRover.
 // if chosenRover is defined, run function to create slideshow.
 // if chosenRover not defined, run function to send form, alert user
@@ -27,20 +65,6 @@ const capitalize = ([first, ...rest], lowerRest = false) =>
 // Closure starts
 const App = (state) => {
     let { store, newState } = state
-
-// IIFE to populate screen with buttons
-
-for (var i = 0; i < state.rovers.length; i++) {
-    const rovers = Array.from(state.rovers)
-    const button = document.createElement('button');
-    button.innerText = capitalize(rovers[i]);
-    button.onclick = function() {
-      console.log(i);
-    };
-    document.body.appendChild(button);
-  }
-  console.log(i); // 2
-
 
 // Makes and merges rover and photo info objects for cards.
 // Some images are duplicates, but urls are differet.
@@ -148,19 +172,5 @@ const RoverImageData = jsonImageData.gallery.latest_photos.map(photo => {
 
 getRoverPhotos(store, updateStore)
 
-// Fetch API Data Form function
-/*
-const getDatafromForm = () => {
-    const userInput = {
-        chosenRover : "chosenRover",
-        cameraAngle : "cameraAngle"
-    };
-    return userInput
-}
-
 // Sample Build URl function. Return template literal.
 
-const buildRequestURL = (requestData) => {
-  return `http://localhost:3000/gallery/${requestData.rover}&LimitTo=[rovers]`
-
-*/

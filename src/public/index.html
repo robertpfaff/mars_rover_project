@@ -1,22 +1,104 @@
+<!DOCTYPE html>
 <html lang="en">
+
   <head>
+
+    <!--  Title  -->
+
+    <title>Welcome to Mars</title>
+
+     <!--  Meta  -->
+
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Welcome to the Red Planet</title>
-    <!-- Include Google fonts: Monserrat -->
-    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-    <link rel="stylesheet" href="./assets/stylesheets/index.css" />
-    <link rel="stylesheet" href="./assets/stylesheets/resets.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/immutable/3.8.2/immutable.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Google fonts   -->
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&display=swap" rel="stylesheet"="src\public\assets\stylesheets\form.css">
+
+    <!-- Content   -->
+
+    <title>Mars Rovers Gallery</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="src\public\assets\stylesheets\index.css">
+    <!-- not all camera angles available for all rovers -->
+    <!-- Dynamically renders camera options for each rover -->
+    <!-- Menu script begins-->
+    <script>
+      function populate(s1, s2) {
+        var s1 = document.getElementById(s1);
+        var s2 = document.getElementById(s2);
+        s2.innerHTML = "";
+        if (s1.value == "curiosity") {
+          var optionArray = ["ALL | All Camera Angles", "FHAZ | Front Hazard Avoidance Camera", "RHAZ | Rear Hazard Avoidance Camera", "MAST | Mast Camera", "CHEMCAM | Chemistry and Camera Complex", "MAHLI | Mars Hand Lens Imager", "MARDI | Mars Descent Imager", "NAVCAM | Navigation Camera"];
+        } else if (s1.value == "opportunity") {
+          var optionArray = ["ALL | All Camera Angles", "FHAZ | Front Hazard Avoidance Camera", "RHAZ | Rear Hazard Avoidance Camera", "NAVCAM | Navigation Camera", "PANCAM | Panoramic Camera", "MINITES | Miniature Thermal Emission Spectrometer"];
+        } else if (s1.value == "spirit") {
+          var optionArray = ["ALL | All Cameras Angles", "FHAZ | Front Hazard Avoidance Camera", "RHAZ | Rear Hazard Avoidance Camera", "NAVCAM | Navigation Camera", "PANCAM | Panoramic Camera", "MINITES | Miniature Thermal Emission Spectrometer"];
+        }
+        for (var option in optionArray) {
+          var pair = optionArray[option].split("|");
+          var newOption = document.createElement("option");
+          newOption.value = pair[0];
+          newOption.innerHTML = pair[1];
+          s2.options.add(newOption);
+        }
+      }
+    </script>
+    <!-- Menu script ends-->
   </head>
-  <main>
+
+  <body>
+
+    <!-- Root div begins-->
+
     <div id="root">
-        <h1>Loading...</h1>
+
+      <!--Beginning of form -->
+
+      <form class="form" id="userInputForm" class="form_input">
+        <link rel="stylesheet" href="assets\stylesheets\form.css">
+
+        <!-- Request user's name (required)-->
+
+          <label for=" givenname" type="text" class="form__label"> What is your name, earthling?</label>
+          <input required class="form_input" type="text" id="name" name="name" minlength="4" maxlength="20" size="20">
+
+        <!-- Request rover selection (required) -->
+        <!-- Request camera selection (optional) -->
+        <!-- Dynamically populates camera menus as not all rovers have have the same cameras -->
+
+          <label for="givenname" class="form__label">Please choose a rover.</label>
+          <select required class="form__input" id="rover" type="text" name="rover" onchange="populate(this.id,'camera')">
+            <option type="text" value=""></option>
+            <option type="text" name="curiosity" id="curiosity" value="curiosity">Curiosity</option>
+            <option type="text" name="opportunity" id="opportunity" value="opportunity">Opportunity</option>
+            <option type="text" name="spirit" id="spirit" value="spirit">Spirit</option>
+          </select>
+
+          <label for="givenname" class="form__label">Select a camera angle</label>
+          <hr />
+          <select type="text" name="camera" id="camera" value="camera"></select>
+
+      <!-- Form button calls handleInput function. -->
+      <br></br>
+        <input type="submit" />
+
+      <span id="result-name"></span>
+      <span id="result-rover"></span>
+      <span id="result-camera"></span>
+
+        <!--Form ends -->
+  </form>
+      <!--Root div ends -->
     </div>
-</main>
-    <!-- Primary JavaScript -->
-    <script src="/client.js"></script>
+    <footer>
+      <!-- Primary client.js script tage -->
+      <script src="client.js"></script>
+
+    </footer>
   </body>
 </html>
