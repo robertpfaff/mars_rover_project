@@ -1,13 +1,4 @@
-let store = {
-
-    rovers: ['curiosity', 'opportunity', 'spirit'],
-    chosenRover: '',
-    earthName: '',
-    cameraAngle: ''
-}
-
-function getData() {
-    window.addEventListener('load', () => {
+window.addEventListener('load', () => {
 
     // Get query parameters
 
@@ -22,26 +13,13 @@ function getData() {
 
     console.log("Results Get Params")
 
-    const userInput = new Object();
-    userInput.name = name;
-    userInput.rover = rover;
-    userInput.camera = camera;
+    const store = new Object();
+    store.name = name;
+    store.rover = rover;
+    store.camera = camera;
 
-console.log("User Input")
-console.log(userInput)
-
-const temp = Object.assign(store, userInput);
-
-console.log("Store After Assign")
-console.log(store)
-
-return store
-
-})};
-getData()
-
-console.log("Store Outside Function")
-console.log(store)
+    console.log("Store After Assign")
+    console.log(store)
 
 const updateStore = (store, newState) => {
     store = Object.assign(store, newState)
@@ -174,3 +152,7 @@ getRoverPhotos(store, updateStore)
 
 // Sample Build URl function. Return template literal.
 
+
+// Event listener ends here.
+
+});
