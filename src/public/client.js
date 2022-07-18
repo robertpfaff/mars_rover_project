@@ -11,14 +11,17 @@ window.addEventListener('load', () => {
     document.getElementById("result-rover").innerHTML = rover;
     document.getElementById("result-camera").innerHTML = camera;
 
-    console.log("Results Get Params")
+    console.log("Params Values Client Side")
+    console.log("Name:", name)
+    console.log("Rover:", rover)
+    console.log("Camera:", camera)
 
     const store = new Object();
     store.name = name;
     store.rover = rover;
     store.camera = camera;
 
-    console.log("Store After Assign")
+    console.log("Store After Creation")
     console.log(store)
 
 const updateStore = (store, newState) => {
@@ -42,8 +45,12 @@ const capitalize = ([first, ...rest], lowerRest = false) =>
 // CREATE CONTENT STARTING HERE:
 // Closure starts
 const App = (state) => {
-    let { store, newState } = state
+    let { store } = state
 
+console.log("Store in App")
+console.log(store)
+console.log("State")
+console.log(state)
 // Makes and merges rover and photo info objects for cards.
 // Some images are duplicates, but urls are differet.
 

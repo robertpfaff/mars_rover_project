@@ -16,15 +16,20 @@ app.use('/', express.static(path.join(__dirname, '../public')))
 
 // your API calls
 
-app.get('/gallery/:rover', async (req, res) => {
+app.get('/:rover', async (req, res) => {
 
-    const chosenRover = req.params['rover']
-    console.log("Chosen Rover")
-    console.log("Response:", rover) // produces error Response = rover, not rover name, but the key 'rover.'
-    console.log("Request Params Rover")
-    console.log(req.query)
-    console.log("Request ALL Params")
-    console.log(req.params)
+    const rover = req.params.rover
+
+    console.log("Chosen Rover 1")
+    console.log("Response1:", chosenRover1)
+    console.log("Chosen Rover 2")
+    console.log("Response2:", chosenRover2)
+    console.log("Request Query Rover")
+    console.log(req.query.rover)
+    console.log("Request Query Body")
+    console.log(req.query.body)
+    console.log("ID in Parens:")
+    console.log(req.params['id']);
 
     try {
         let gallery = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/latest_photos?api_key=${process.env.API_KEY}`)
