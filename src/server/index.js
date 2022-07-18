@@ -17,7 +17,7 @@ app.use('/', express.static(path.join(__dirname, '../public')))
 chosenRover = 'curiosity'
 
 // Backend NASA API calls for rover photo data.
-app.get('/gallery', async (req, res) => {
+app.get('/gallery/:rover', async (req, res) => {
     try {
         let gallery = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${chosenRover}/latest_photos?api_key=${process.env.API_KEY}`)
             .then(res => res.json())
