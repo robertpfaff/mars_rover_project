@@ -3,12 +3,10 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const fetch = require('node-fetch')
 const path = require('path')
-const cookieParser = require('cookie-parser')
 
 const app = express()
 const port = 3000
 
-app.use(cookieParser())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
@@ -16,20 +14,14 @@ app.use('/', express.static(path.join(__dirname, '../public')))
 
 // your API calls
 
-app.get('/:rover', async (req, res) => {
+app.get ('gallery/:rover', async (req, res) => {
 
-    const rover = req.params.rover
+    // Review request body if possible.
+    console.log("REQUEST BODY: ", req.body)
 
-    console.log("Chosen Rover 1")
-    console.log("Response1:", chosenRover1)
-    console.log("Chosen Rover 2")
-    console.log("Response2:", chosenRover2)
-    console.log("Request Query Rover")
-    console.log(req.query.rover)
-    console.log("Request Query Body")
-    console.log(req.query.body)
-    console.log("ID in Parens:")
-    console.log(req.params['id']);
+    console.log("Req Params Rover")
+    console.log(req.params.rover)
+    const rover = req.params.rover ? req.params.rover : 'curiosity';
 
     try {
         let gallery = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/latest_photos?api_key=${process.env.API_KEY}`)
@@ -40,6 +32,8 @@ app.get('/:rover', async (req, res) => {
         console.log('error:', err);
     }
 });
+
+// Invoke function on mouse press/button click
 
 // example API call
 app.get('/apod', async (req, res) => {

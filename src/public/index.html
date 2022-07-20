@@ -71,7 +71,7 @@
         <!-- Request camera selection (optional) -->
         <!-- Dynamically populates camera menus as not all rovers have have the same cameras -->
 
-          <label for="givenname" class="form__label">Please choose a rover.</label>
+          <label class="form__label">Please choose a rover.</label>
           <select required class="form__input" id="rover" type="text" name="rover" onchange="populate(this.id,'camera')">
             <option type="text" value=""></option>
             <option type="text" name="curiosity" id="curiosity" value="curiosity">Curiosity</option>
@@ -79,18 +79,17 @@
             <option type="text" name="spirit" id="spirit" value="spirit">Spirit</option>
           </select>
 
-          <label for="givenname" class="form__label">Select a camera angle</label>
+          <label class="form__label">Select a camera angle</label>
           <hr />
           <select type="text" name="camera" id="camera" value="camera"></select>
-
       <!-- Form button calls handleInput function. -->
       <br></br>
-        <input type="submit" />
-
-      <span id="result-name"></span>
-      <span id="result-rover"></span>
-      <span id="result-camera"></span>
-
+      <button id="submit" name="submit" title="Transmit Images" class="float-left submit-button" >Transmit Images</button>
+      <div id="results" name="results">
+      Name of Earthling<span id="result-name"></span>
+      Chosen Rover<span id="result-rover"></span>
+      Camera Angle<span id="result-camera"></span>
+      </div>
         <!--Form ends -->
   </form>
       <!--Root div ends -->
@@ -98,6 +97,11 @@
     <footer>
       <!-- Primary client.js script tage -->
       <script src="client.js"></script>
+       <script>type="text/javascript">
+       document.getElementById("submit").onclick == transmitImages(); {
+        location.href = "http://localhost:3000/gallery";
+    };
+</script>
 
     </footer>
   </body>

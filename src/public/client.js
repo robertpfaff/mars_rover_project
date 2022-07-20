@@ -1,4 +1,10 @@
-window.addEventListener('load', () => {
+// Global variable.
+
+const button = ('#submit');
+
+if (document.getElementById('submit').clicked == true) {
+
+    window.addEventListener('load', () => {
 
     // Get query parameters
 
@@ -21,36 +27,43 @@ window.addEventListener('load', () => {
     store.rover = rover;
     store.camera = camera;
 
-    console.log("Store After Creation")
+    console.log("Store")
     console.log(store)
 
 const updateStore = (store, newState) => {
     store = Object.assign(store, newState)
     render(root, store)
+
+// End of update store
 }
 
 const render = async (root, state) => {
     root.innerHTML = App(state)
 }
 
+console.log("What is render?")
+console.log(render)
+
 // Helper function/code to capitalize words as neccessary.
 const capitalize = ([first, ...rest], lowerRest = false) =>
   first.toUpperCase() + (lowerRest ? rest.join('').toLowerCase() : rest.join(''));
 
-
 // Render content based on user input chosenRover.
 // if chosenRover is defined, run function to create slideshow.
-// if chosenRover not defined, run function to send form, alert user
+// if chosenRover not defined, redirect user to form
 
 // CREATE CONTENT STARTING HERE:
 // Closure starts
+
 const App = (state) => {
     let { store } = state
 
-console.log("Store in App")
+
+console.log("Store Inside APP Still Defined?")
 console.log(store)
-console.log("State")
-console.log(state)
+
+console.log("What is render in App?")
+console.log(render)
 // Makes and merges rover and photo info objects for cards.
 // Some images are duplicates, but urls are differet.
 
@@ -97,11 +110,14 @@ console.log("App: State Variable")
 console.log("State")
 console.log(state)
 
-if (state.chosenRover != undefined) {
-    const chosenRover = capitalize(state.chosenRover)
+console.log("What is render?")
+console.log(render)
+
+if (state.rover != undefined) {
+    const rover = capitalize(rover)
     return (`
             <header>
-            <h2 class="main-title">Welcome to the ${chosenRover} Rover's Gallery</h2>
+            <h2 class="main-title">Welcome to the ${rover} Rover's Gallery</h2>
             </header>
                 <div class="main">
                 <hr />
@@ -116,30 +132,40 @@ if (state.chosenRover != undefined) {
             <footer>
             <footer>
         `)
-}
+};
 
 
 // Closure ends
 // END OF APP FUNCTION
-// End of state?
+};
 
-}
-
+console.log("What is render?")
+console.log(render)
 // Single async higher-order/callback function
 // Retrieves image data and update store/new state
 // getRoverPhotos is Higher Order function.
 // RoverPhotos as callback function.
 
-const getRoverPhotos = async (state, fn) => {
+const getRoverPhotos = async (rover, store, fn) => {
 
-    const response = await fetch("http://localhost:3000/gallery", {
+    console.log("Store Rover in Client API", store.rover)
+    console.log("Just Rover in Client API: ", rover)
+
+    // Do I go to gallery or gallery/rover?
+
+    const response = await fetch(`http://localhost:3000/gallery/${rover}`, {
         method: "GET",
         headers: {
             Accept: "application/json"
         }
 });
 
+console.log("Response in getRoverPhotos"),
+console.log(response)
+
 const jsonImageData = await response.json();
+
+// filter images if camera angle chosen.
 
 const RoverImageData = jsonImageData.gallery.latest_photos.map(photo => {
     return photo.img_src;
@@ -154,12 +180,17 @@ const RoverImageData = jsonImageData.gallery.latest_photos.map(photo => {
     return RoverImageData
 }
 
-
-getRoverPhotos(store, updateStore)
+// Wait until backend API has completed its mission.
+// Then, get photos and filter by camera if all not chosen.
+setTimeout(getRoverPhotos(rover, store, updateStore), 5000)
 
 // Sample Build URl function. Return template literal.
 
+// End of event listener
+})
 
-// Event listener ends here.
+// End of original if statement
+};
 
-});
+
+
