@@ -1,22 +1,27 @@
-require('dotenv').config()
-const express = require('express')
-const bodyParser = require('body-parser')
-const fetch = require('node-fetch')
-const path = require('path')
+console.log("SERVER SIDE RUNNING.")
 
-const app = express()
-const port = 3000
+require('dotenv').config({ path: '.env'});
+const express = require('express');
+const bodyParser = require('body-parser');
+const fetch = require('node-fetch');
+const path = require('path');
 
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+const app = express();
+const port = 3000;
 
-app.use('/', express.static(path.join(__dirname, '../public')))
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+
+app.use('/', express.static(path.join(__dirname, '../public')));
 
 // your API calls
 
 app.get ('gallery/:rover', async (req, res) => {
 
     // Review request body if possible.
+    console.log("Backend Gallery API called.")
+
     console.log("REQUEST BODY: ", req.body)
 
     console.log("Req Params Rover")
@@ -31,12 +36,11 @@ app.get ('gallery/:rover', async (req, res) => {
     } catch (err) {
         console.log('error:', err);
     }
-});
-
-// Invoke function on mouse press/button click
+})
 
 // example API call
 app.get('/apod', async (req, res) => {
+    console.log("Backend APOD API called.")
     try {
         let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
             .then(res => res.json())
