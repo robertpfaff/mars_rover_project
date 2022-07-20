@@ -17,26 +17,17 @@ app.use('/', express.static(path.join(__dirname, '../public')));
 
 // your API calls
 
-app.get ('gallery/:rover', async (req, res) => {
-
-    // Review request body if possible.
-    console.log("Backend Gallery API called.")
-
-    console.log("REQUEST BODY: ", req.body)
-
-    console.log("Req Params Rover")
-    console.log(req.params.rover)
-    const rover = req.params.rover ? req.params.rover : 'curiosity';
+app.get ('/gallery', async (req, res) => {
 
     try {
-        let gallery = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/latest_photos?api_key=${process.env.API_KEY}`)
+        let gallery = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${req.params.rover}/latest_photos?api_key=${process.env.API_KEY}`)
             .then(res => res.json())
         res.send({ gallery })
         console.log(gallery)
     } catch (err) {
         console.log('error:', err);
     }
-})
+});
 
 // example API call
 app.get('/apod', async (req, res) => {
@@ -48,6 +39,6 @@ app.get('/apod', async (req, res) => {
     } catch (err) {
         console.log('error:', err);
     }
-})
+});
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
